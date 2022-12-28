@@ -7,7 +7,6 @@ import jakarta.persistence.Id;
 
 @Entity
 public class Movies {
-
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
@@ -44,5 +43,13 @@ public class Movies {
 
   public void setRating(float rating) {
     this.rating = rating;
+  }
+
+  public Integer getGenreId() {
+    return this.genre_id;
+  }
+
+  public void setGenreId(Integer genre_id) {
+    this.genre_id = genre_id;
   }
 }
