@@ -21,6 +21,8 @@ public class Movies {
 
   private Integer director_id;
 
+  private String image_uri;
+
   public Integer getId() {
     return id;
   }
@@ -45,11 +47,19 @@ public class Movies {
     this.rating = rating;
   }
 
-  public Integer getGenreId() {
+  public Integer getGenre_id() {
     return this.genre_id;
   }
 
-  public void setGenreId(Integer genre_id) {
+  public void setGenre_id(Integer genre_id) {
     this.genre_id = genre_id;
+  }
+
+  public String getImage_uri() {
+    return this.image_uri;
+  }
+
+  public void setImage_uri(String image_uri) {
+    this.image_uri = image_uri;
   }
 }

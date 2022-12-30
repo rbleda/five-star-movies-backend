@@ -26,6 +26,11 @@ public class MoviesController {
     return movieRepository.getMoviesByGenre(parseInt(genre_id));
   }
 
+  @GetMapping(path="/search")
+  public Iterable<Movies> getMoviesTitle(@RequestParam(required = true) String title) {
+    return movieRepository.getMoviesByTitle(title);
+  }
+
   @GetMapping(path="/all")
   public @ResponseBody Iterable<Movies> getAllMovies() {
     return movieRepository.findAll();

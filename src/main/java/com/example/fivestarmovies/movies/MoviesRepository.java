@@ -14,4 +14,7 @@ public interface MoviesRepository extends CrudRepository<Movies, Integer> {
 
   @Query("SELECT m FROM Movies m WHERE m.genre_id = :genre_id ORDER BY m.rating DESC")
   List<Movies> getMoviesByGenre(@Param("genre_id") Integer genre_id);
+
+  @Query("SELECT m FROM Movies m WHERE title LIKE %:title% ORDER BY rating DESC")
+  List<Movies> getMoviesByTitle(@Param("title") String title);
 }
