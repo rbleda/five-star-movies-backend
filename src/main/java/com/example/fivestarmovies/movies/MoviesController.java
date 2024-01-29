@@ -1,6 +1,7 @@
 package com.example.fivestarmovies.movies;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +16,7 @@ import static java.lang.Integer.parseInt;
 
 @RestController
 @RequestMapping(path="/movies")
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:3000")
 public class MoviesController {
   @Autowired
   private MoviesRepository movieRepository;
@@ -23,7 +24,7 @@ public class MoviesController {
   @RequestMapping(method = RequestMethod.GET)
   public Iterable<Movies> getMovies(@RequestParam(required = false) String genre_id,
                                     @RequestParam(required = false) String page_number) {
-    int start_limit = ((parseInt(page_number) - 1) * 30);
+    int start_limit = ((parseInt(page_number) - 1) * 35);
     if (genre_id == null || genre_id.equals("0")) {
       return movieRepository.findThirtyOrderByRating(start_limit);
     }
@@ -33,7 +34,7 @@ public class MoviesController {
   @GetMapping(path="/search")
   public Iterable<Movies> getMoviesTitle(@RequestParam(required = true) String title,
                                          @RequestParam(required = false) String page_number) {
-    int start_limit = ((parseInt(page_number) - 1) * 30);
+    int start_limit = ((parseInt(page_number) - 1) * 35);
     return movieRepository.getMoviesByTitle(title, start_limit);
   }
 
@@ -43,7 +44,12 @@ public class MoviesController {
   }
 
   @GetMapping(path="/single_movie")
-  public Optional<Movies> getMovie(@RequestParam(required = true) Integer id) {
-    return movieRepository.findById(id);
+  public ResponseEntity<Optional<Movies>> getMovie(@RequestParam(required = false) Integer id) {
+    Optional<Movies> movie = movieRepository.findById(id);
+    if (movie.isPresent()) {
+      return ResponseEntity.ok(movie);
+    } else {
+      return ResponseEntity.notFound().build();
+    }
   }
 }

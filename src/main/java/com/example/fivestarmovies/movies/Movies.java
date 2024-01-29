@@ -11,6 +11,8 @@ public class Movies {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
 
+  private Integer position;
+
   private String title;
 
   private Integer genre_id;
@@ -23,6 +25,8 @@ public class Movies {
 
   private String image_uri;
 
+  private String movie_description;
+
   public Integer getId() {
     return id;
   }
@@ -30,6 +34,10 @@ public class Movies {
   public void setId(Integer id) {
     this.id = id;
   }
+
+  public Integer getPosition(){return position;}
+
+  public void setPosition(Integer position){this.position = position;}
 
   public String getTitle() {
     return title;
@@ -62,4 +70,12 @@ public class Movies {
   public void setImage_uri(String image_uri) {
     this.image_uri = image_uri;
   }
+
+  public Integer getDirector_id() {return this.director_id;}
+
+  public void setDirector(Integer sample_director) {this.director_id = sample_director;}
+
+  public String getMovie_description() {return this.movie_description;}
+
+  public void setMovie_description(String movie_description) {this.movie_description = movie_description;}
 }
