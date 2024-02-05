@@ -24,7 +24,12 @@ public class MoviesController {
   @RequestMapping(method = RequestMethod.GET)
   public Iterable<Movies> getMovies(@RequestParam(required = false) String genre_id,
                                     @RequestParam(required = false) String page_number) {
-    int start_limit = ((parseInt(page_number) - 1) * 35);
+
+    int start_limit = 0;
+    if (page_number != null && !page_number.isEmpty()) {
+      start_limit = ((parseInt(page_number) - 1) * 35);
+    }
+
     if (genre_id == null || genre_id.equals("0")) {
       return movieRepository.findThirtyOrderByRating(start_limit);
     }
@@ -34,7 +39,10 @@ public class MoviesController {
   @GetMapping(path="/search")
   public Iterable<Movies> getMoviesTitle(@RequestParam(required = true) String title,
                                          @RequestParam(required = false) String page_number) {
-    int start_limit = ((parseInt(page_number) - 1) * 35);
+    int start_limit = 0;
+    if (page_number != null && !page_number.isEmpty()) {
+      start_limit = ((parseInt(page_number) - 1) * 35);
+    }
     return movieRepository.getMoviesByTitle(title, start_limit);
   }
 
@@ -44,8 +52,17 @@ public class MoviesController {
   }
 
   @GetMapping(path="/single_movie")
-  public ResponseEntity<Optional<Movies>> getMovie(@RequestParam(required = false) Integer id) {
-    Optional<Movies> movie = movieRepository.findById(id);
+  public ResponseEntity<Optional<Movies>> getMovie(@RequestParam(required = false) Integer id,
+                                                   @RequestParam(required = false) Integer position) {
+    Optional<Movies> movie;
+    if (id != null) {
+      movie = movieRepository.findById(id);
+    } else if (position != null) {
+      movie = movieRepository.getMovieByPosition(position);
+    } else {
+      return ResponseEntity.notFound().build();
+    }
+
     if (movie.isPresent()) {
       return ResponseEntity.ok(movie);
     } else {
